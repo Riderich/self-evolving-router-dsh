@@ -1,0 +1,12 @@
+{
+  "backend": "executable-rule-v1",
+  "rule_id": "list-files",
+  "description": "List visible top-level entries in the public read-only snapshot",
+  "trigger": "trigger.py",
+  "executor": "executor.py",
+  "args_schema": {"type":"object","properties":{},"required":[],"additionalProperties":false},
+  "result_schema": {"type":"object","properties":{"text":{"type":"string","maxLength":65536}},"required":["text"],"additionalProperties":false},
+  "capabilities": ["public-workspace-read"],
+  "source_ids": ["manual-example-list-files"],
+  "parent_revision": null
+}

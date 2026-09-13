@@ -1,0 +1,5 @@
+- insert:
+    - id: prellm-router
+      name: dsh-prellm-router
+- id: headless-runner
+  inject: [headlessStartup, prellmRouter]

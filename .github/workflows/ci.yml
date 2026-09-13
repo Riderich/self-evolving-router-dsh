@@ -1,0 +1,26 @@
+name: test
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DSH_HOME: ${{ github.workspace }}/.sandbox/dsh-home
+      ROUTER_DOCKER_CONTEXT: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: npm-shrinkwrap.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: node install.js
+      - run: docker pull python@sha256:9d2e5553305c7c7b0097999bb17187c69b921ccd6bc9d40e4bb5ebe652c00285
+      - run: npm run test:docker
+      - run: npm run test:evolution
+      - run: npm pack --dry-run

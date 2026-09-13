@@ -1,0 +1,9 @@
+node_modules/
+.sandbox/
+.dsh/
+*.tgz
+.env
+.env.*
+*auth*.json
+*credentials*.json
+coverage/

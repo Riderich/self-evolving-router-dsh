@@ -1,0 +1,6 @@
+{"version":1,"cases":[
+  {"id":"visible-one","request":"list visible files","rule_id":"list-files","args":{},"text":"a.txt\n","files":{"a.txt":"example"}},
+  {"id":"visible-empty","request":"list visible files","rule_id":"list-files","args":{},"text":"","files":{}},
+  {"id":"outside-scope","request":"list hidden files","rule_id":null,"files":{}},
+  {"id":"different-operation","request":"count visible files","rule_id":null,"files":{"a.txt":"example"}}
+]}
