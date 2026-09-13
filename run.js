@@ -63,7 +63,7 @@ if (benchmark) patches.push({ id: 'headless-runner', inject: ['headlessStartup',
 if (maintenance) {
   if (benchmark || learnOnly) throw Error('Maintenance and benchmark sessions must be separate')
   maintenance = { ...maintenance, defineTool: (await import(require.resolve('@deepseek-ai/dsh-tools'))).defineTool, prompt: await maintenancePlugin.maintenancePrompt(new RuleStore(maintenance.root), maintenance.chain_id) }
-  patches.push({ id: 'headless-runner', inject: ['headlessStartup', 'objectMaintenance'] }, { id: 'prellm-router', disabled: true })
+  patches.push({ id: 'headless-runner', inject: ['headlessStartup', 'objectMaintenance'] }, { id: 'prellm-router', disabled: true }, { id: 'session-title-llm', disabled: true })
 }
 if (learnOnly) patches.push({ id: 'headless-runner', disabled: true })
 if (provider && !connection) throw Error('Explicit auth file required with provider file')

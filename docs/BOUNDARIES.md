@@ -44,3 +44,9 @@ Route duration returned to the caller includes event persistence; the stored
 route event records work up to persistence. Container cleanup may exceed the
 execution deadline by its bounded cleanup allowance. This is not a hard real-time
 system. Do not claim net savings without accounting for this overhead.
+
+The router profile disables automatic LLM session titles for all routing
+conditions. Maintenance rejects auxiliary requests (including model compaction)
+before dispatch unless they carry the exact maintenance tool surface. When the
+context budget is exhausted, use the persistent draft/feedback in a new bounded
+attempt; do not make an unaccounted background summary call.

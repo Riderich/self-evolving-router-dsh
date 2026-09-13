@@ -3,3 +3,6 @@
       name: dsh-prellm-router
 - id: headless-runner
   inject: [headlessStartup, prellmRouter]
+# Automatic model-generated titles would violate pre-model routing accounting.
+- id: session-title-llm
+  disabled: true

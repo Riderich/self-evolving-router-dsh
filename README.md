@@ -2,7 +2,7 @@
 
 让 DeepSeek Harness 在调用模型之前执行经过验证的确定性程序，并从获准的历史请求中持续生成、修复和更新这些程序。
 
-这是独立开发的开源 alpha。自进化代码走 DSH 原生工具循环：模型编辑真实 Python 规则文件，接收可信验证器的失败反馈，继续修复，通过检查后发布不可变版本。路由本身不调用模型。未命中或不确定时交回原 DSH agent。
+这是独立开发的开源 alpha。自进化代码走 DSH 原生工具循环：模型编辑真实 Python 规则文件，接收可信验证器的失败反馈，继续修复，通过检查后发布不可变版本。路由本身不调用模型。未命中或不确定时交回原 DSH agent。router profile 关闭自动模型会话标题，避免后台调用破坏零模型路径。
 
 当前范围是**只读、可明确验证的小任务**，例如列出可见文件。它不是通用代码生成器，也尚未证明净成本下降。人工示例和离线模型测试不作为真实模型学习效果证据。
 
@@ -64,6 +64,7 @@ npm test
 # 需要已安装 profile 和上述 Docker 镜像；全部模型使用离线替身
 ROUTER_DOCKER_CONTEXT= npm run test:evolution
 ROUTER_DOCKER_CONTEXT= npm run test:docker
+ROUTER_DOCKER_CONTEXT= npm run test:route
 ```
 
 Colima 将变量值改为 `colima`。普通测试会跳过容器和 DSH 集成测试，跳过不算验收通过。自进化集成测试覆盖过宽触发器被拒绝、根据反馈修复、重新发布和新请求零模型路由；模型调用在实际 adapter 边界预留预算并记录用量。
