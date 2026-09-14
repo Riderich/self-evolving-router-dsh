@@ -35,18 +35,26 @@ node cli.js --help
 
 这个源目录可以单独克隆和安装，不需要研究文档、InterCode 数据集或私有 fork。研究工作区中的旧 runtime 自动发现只是开发兼容路径。
 
-## 跑通自进化
+## 从可工作的初始 router 开始
 
 先准备公开、无任务数据的固定 Python 镜像：
 
 ```sh
 docker pull python@sha256:9d2e5553305c7c7b0097999bb17187c69b921ccd6bc9d40e4bb5ebe652c00285
-node scripts/setup-demo.mjs ./demo-workspace
+node scripts/setup-starter.mjs ./demo-workspace
 ```
 
-Colima 用户在上述命令前设置 `DOCKER_CONTEXT=colima` 和 `ROUTER_DOCKER_CONTEXT=colima`。`.sandbox` 必须位于 Docker 可共享目录。示例脚本写入三个合成历史结果和独立准入检查，开启最多 **20 次累计模型请求**，但不会开始调用模型。
+Colima 用户在上述命令前设置 `DOCKER_CONTEXT=colima` 和 `ROUTER_DOCKER_CONTEXT=colima`。输出目录必须位于 Docker 可共享位置。安装会独立验证并激活三个手写规则：列出顶层可见普通文件、统计这些文件数量、递归统计指定扩展名文件的换行字节。18 项集合准入检查通过后才启用。初始规则能直接工作，也会作为维护模型的 few-shot；不会虚构成功历史或发起模型调用。只接受新的对象注册表，不覆盖已有证据。
 
-配置 DSH provider 后执行：
+先直接使用，无需 API：
+
+```sh
+node cli.js --root ./demo-workspace route "list visible files"
+node cli.js --root ./demo-workspace route "count visible files"
+node cli.js --root ./demo-workspace route "count lines in all c files in /testbed recursively"
+```
+
+支持范围和示例见 [工作初始 router](examples/starter-router)。额外子目录、排除、过滤等未支持限定条件会回退。以下维护命令需要先导入足够的真实验证历史并配置 DSH provider；没有历史时不会启动模型：
 
 ```sh
 node cli.js --root ./demo-workspace preflight
@@ -57,13 +65,13 @@ node cli.js --root ./demo-workspace route "list visible files"
 
 也支持 `DSH_ROUTER_AUTH_FILE=/absolute/private/auth.json`，内容为 `{"apiKey":"…","baseURL":"https://…","model":"…"}`，必须 `chmod 600`。如需其他已支持的 adapter，设置 `DSH_ROUTER_PROVIDER_FILE`，格式见 `lib/provider-config.js`。凭证文件不挂载给维护工具。不要把凭证放进提交或示例目录。
 
-`evolve` 自动选出有足够可信历史的任务族，运行生成—验证—诊断—修复—激活链。一次未通过可用同一命令继续已有链；失败反馈、草稿、稳定版本、调用账本跨进程保留。达到预算即停止。`recover CHAIN_ID` 检查崩溃状态；未确认结果的模型调用进入 ambiguous，不会偷偷重发。
+`evolve` 自动选出有足够可信历史的任务族，运行编辑—验证—诊断—修复—激活链，默认累计最多 20 次模型调用。当前规则能正确重现的新历史会被标记已覆盖，跳过无增量依据的维护；比较为严格输出相等，不把一个匹配信号当作正确覆盖。提示自动提供最多两条当前有效规则及其测试，作为实际代码 few-shot。同族草稿默认复制稳定版本，重复 create 复用已有草稿；更新仍须通过整个规则集合的回归。一次未通过可用同一命令继续已有链；失败反馈、草稿、稳定版本、调用账本跨进程保留。达到预算即停止。`recover CHAIN_ID` 检查崩溃状态；未确认结果的模型调用进入 ambiguous，不会偷偷重发。
 
-真实集成用 `observe EVIDENCE.json` 导入可信验证器确认的结果，记录必须含 `id/family/request/output/oracle_id/verified:true`。普通模型回复不会自动变成验证结果。宿主评估插件也可以调用 `prellmRouter.observeVerified(cwd, evidence)`，在维护已开启时自动调度。`family` 使用小写字母、数字和连字符，并作为规则 ID。
+真实集成用 `observe EVIDENCE.json` 导入可信验证器确认的结果，记录必须含 `id/family/request/output/oracle_id/verified:true`。普通模型回复不会自动变成验证结果。建议由可信验证器附上 `fixture:{files,args}`，让增量版本必须重放新历史，防止只通过旧测试却未获得新能力；证据会绑定到证明并继承。详见 [初始 router 与增量验证](docs/starter-router.md)。宿主评估插件也可以调用 `prellmRouter.observeVerified(cwd, evidence)`，在维护已开启时自动调度。`family` 使用小写字母、数字和连字符，并作为规则 ID。
 
 ## 规则与验证
 
-规则包包含 `manifest.json`、`README.md`、`trigger.py`、`executor.py`，可附 helpers 和开发测试。例子在 `examples/rules/list-files`。维护模型通过 `rule` 的 18 个操作管理草稿和生命周期，通过隔离的 `str_replace_editor` 编辑文件，通过 `rule_skill` 按需读取操作说明。
+规则包包含 `manifest.json`、`README.md`、`trigger.py`、`executor.py`，可附 helpers 和开发测试。工作的初始集合在 `examples/starter-router`，旧单规则夹具仍在 `examples/rules/list-files`。维护模型通过 `rule` 的 18 个操作管理草稿和生命周期，通过隔离的 `str_replace_editor` 编辑文件，通过 `rule_skill` 按需读取操作说明。
 
 触发函数 `trigger(request, context)` 返回 match/no_match/abstain；执行函数 `execute(request, args, context)` 返回有界 JSON 结果。执行环境只读公开快照。具体协议见 [维护协议](maintenance-skills/PROTOCOL.md)，威胁模型和限制见 [边界说明](docs/BOUNDARIES.md)。
 
@@ -95,3 +103,5 @@ ROUTER_DOCKER_CONTEXT=colima node scripts/live-object-acceptance.mjs /absolute/p
 ```
 
 Linux/Docker Desktop 将 context 值改为所用环境（默认可留空）。输出目录必须不存在，以免覆盖旧证据。
+
+原有 `scripts/setup-demo.mjs` 仍用于从空注册表启动的合成工程演示，不是当前默认起点。`scripts/live-starter-acceptance.mjs AUTH NEW_OUTPUT` 是显式付费的种子增量工程验收（最多 20 调用）；离线集成用 `ROUTER_PROFILE_TEST=1 node --test tests/starter-profile.test.js`。几条验收成功不证明 few-shot 比从零生成更有效，也不代表广泛安全或净节省。

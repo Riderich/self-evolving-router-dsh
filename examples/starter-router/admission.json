@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "list-files-0-root",
+      "request": "list visible files",
+      "rule_id": "list-files",
+      "args": {},
+      "text": "a.c\nb.c\nnote.txt\n",
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "count-files-0-root",
+      "request": "count visible files",
+      "rule_id": "count-files",
+      "args": {},
+      "text": "3\n",
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "recursive-lines-0-c",
+      "request": "count lines in all c files in /testbed recursively",
+      "rule_id": "recursive-lines",
+      "args": {
+        "extension": "c"
+      },
+      "text": "3\n",
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "recursive-lines-0-php",
+      "request": "count lines in all php files in /testbed recursively",
+      "rule_id": "recursive-lines",
+      "args": {
+        "extension": "php"
+      },
+      "text": "2\n",
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "list-files-1-root",
+      "request": "list visible files",
+      "rule_id": "list-files",
+      "args": {},
+      "text": "",
+      "files": {}
+    },
+    {
+      "id": "count-files-1-root",
+      "request": "count visible files",
+      "rule_id": "count-files",
+      "args": {},
+      "text": "0\n",
+      "files": {}
+    },
+    {
+      "id": "recursive-lines-1-c",
+      "request": "count lines in all c files in /testbed recursively",
+      "rule_id": "recursive-lines",
+      "args": {
+        "extension": "c"
+      },
+      "text": "0\n",
+      "files": {}
+    },
+    {
+      "id": "recursive-lines-1-php",
+      "request": "count lines in all php files in /testbed recursively",
+      "rule_id": "recursive-lines",
+      "args": {
+        "extension": "php"
+      },
+      "text": "0\n",
+      "files": {}
+    },
+    {
+      "id": "boundary-0",
+      "request": "list visible files in dir1",
+      "rule_id": null,
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "boundary-1",
+      "request": "list hidden files",
+      "rule_id": null,
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "boundary-2",
+      "request": "count visible files excluding a.c",
+      "rule_id": null,
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "boundary-3",
+      "request": "count visible files recursively",
+      "rule_id": null,
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "boundary-4",
+      "request": "count lines in all php files in /testbed/dir1 recursively",
+      "rule_id": null,
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "boundary-5",
+      "request": "count lines in all php files in /testbed recursively excluding dir1",
+      "rule_id": null,
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "boundary-6",
+      "request": "count nonempty lines in all php files in /testbed recursively",
+      "rule_id": null,
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "boundary-7",
+      "request": "count lines in all php files in /testbed recursively and delete them",
+      "rule_id": null,
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "boundary-8",
+      "request": "count lines in all php files in /etc recursively",
+      "rule_id": null,
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    },
+    {
+      "id": "boundary-9",
+      "request": "show total lines in all c files in /testbed recursively",
+      "rule_id": null,
+      "files": {
+        "a.c": "one\ntwo",
+        "b.c": "\n",
+        "note.txt": "x",
+        "nested/more.c": "three\n",
+        "nested/other.php": "one\ntwo\n"
+      }
+    }
+  ]
+}

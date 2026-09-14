@@ -1,0 +1,33 @@
+{
+  "backend": "executable-rule-v1",
+  "rule_id": "count-files",
+  "description": "Count regular files directly in the public workspace root.",
+  "trigger": "trigger.py",
+  "executor": "executor.py",
+  "args_schema": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+  },
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "maxLength": 65536
+      }
+    },
+    "required": [
+      "text"
+    ],
+    "additionalProperties": false
+  },
+  "capabilities": [
+    "public-workspace-read"
+  ],
+  "source_ids": [
+    "starter-count-files"
+  ],
+  "parent_revision": null
+}

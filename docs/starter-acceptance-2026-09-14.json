@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-14",
+  "kind": "synthetic engineering acceptance; not benchmark or few-shot ablation",
+  "seedRules": 3,
+  "initialAdmissionCases": 18,
+  "runs": [
+    {
+      "calls": 8,
+      "passed": false,
+      "reason": "unchanged trigger did not cover new historical requests",
+      "tokens": 74879
+    },
+    {
+      "calls": 11,
+      "admissionCases": 21,
+      "admissionPassed": true,
+      "offlinePostcheckPassed": true,
+      "networkAttempts": 0,
+      "tokens": 116470
+    }
+  ],
+  "totalModelCalls": 19,
+  "totalTokens": 191349,
+  "unknownUsage": 0,
+  "monetaryCost": null,
+  "fullRegression": {
+    "passed": 47,
+    "failed": 1,
+    "skipped": 0,
+    "failure": "DSH execution timeout"
+  },
+  "netSavingsEstablished": false,
+  "isolatedIntegrationRerun": {
+    "passed": 1,
+    "failed": 0,
+    "externalCalls": 0,
+    "mockCalls": 6
+  },
+  "environmentDiagnostics": {
+    "copiedRuntimeIntegration": "failed plugin-tree loading; not a validated replacement runtime",
+    "originalRuntimePostcheck": "passed",
+    "originalRuntimeIsolatedIntegration": "passed"
+  }
+}

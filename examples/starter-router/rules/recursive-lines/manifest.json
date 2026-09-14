@@ -1,0 +1,40 @@
+{
+  "backend": "executable-rule-v1",
+  "rule_id": "recursive-lines",
+  "description": "Sum newline bytes in all files of one extension recursively in the entire public root. A final unterminated line contributes zero.",
+  "trigger": "trigger.py",
+  "executor": "executor.py",
+  "args_schema": {
+    "type": "object",
+    "properties": {
+      "extension": {
+        "type": "string",
+        "maxLength": 12
+      }
+    },
+    "required": [
+      "extension"
+    ],
+    "additionalProperties": false
+  },
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "maxLength": 65536
+      }
+    },
+    "required": [
+      "text"
+    ],
+    "additionalProperties": false
+  },
+  "capabilities": [
+    "public-workspace-read"
+  ],
+  "source_ids": [
+    "starter-recursive-lines"
+  ],
+  "parent_revision": null
+}

@@ -23,5 +23,5 @@ jobs:
       - run: docker pull python@sha256:9d2e5553305c7c7b0097999bb17187c69b921ccd6bc9d40e4bb5ebe652c00285
       - run: npm run test:docker
       - run: npm run test:evolution
-      - run: ROUTER_PROFILE_TEST=1 node --test --test-concurrency=1 tests/rule-profile.test.js
+      - run: ROUTER_PROFILE_TEST=1 node --test --test-concurrency=1 tests/rule-profile.test.js tests/starter-profile.test.js
       - run: npm pack --dry-run
