@@ -6,11 +6,19 @@
 
 当前范围是**只读、可明确验证的小任务**，例如列出可见文件。它不是通用代码生成器，也尚未证明净成本下降。人工示例和离线模型测试不作为真实模型学习效果证据。
 
+## 真实模型验收（2026-09-14）
+
+使用已有 API 的 `deepseek-v4-flash` 完成一次工程验收：从空规则注册表和 3 条经宿主检查的历史开始，模型生成规则，经 4 项准入检查后激活。共 15 次真实 API 请求；第一段完成验证后停止，第二段保留进度并激活同一版本。新增文件请求通过完整 DSH，实际网络尝试为 0，边界请求回退。
+
+这是单任务族的合成工程验收，不证明净节省、广泛泛化或真实失败修复成功率。见[结构化结果](docs/live-acceptance-2026-09-14.json)及[生成的原始规则](examples/learned-list-files)。真实接口来自用户配置的网关，服务端权重身份未独立核验。
+
 ## 安装
 
 需要 Node.js 22+、npm 和 Docker。macOS 可以使用 Docker Desktop 或 Colima；Linux 使用 Docker Engine。安装命令不调用模型。在本仓库根目录：
 
 ```sh
+git clone https://github.com/Riderich/self-evolving-router-dsh.git
+cd self-evolving-router-dsh
 npm ci
 node install.js
 node cli.js --help
@@ -72,3 +80,11 @@ Colima 将变量值改为 `colima`。普通测试会跳过容器和 DSH 集成�
 原始候选、差异、证明、失败及调用记录位于工作区 `.dsh/executable-rules`；`events` 导出事件。请先清理私人数据再分享日志。报告收益时必须计入生成、验证、执行、回退、修复和维护成本，并和 always-LLM、人工静态、精确回放、冻结历史路由比较。
 
 见 [贡献说明](CONTRIBUTING.md)、[安全说明](SECURITY.md) 和 [第三方声明](THIRD_PARTY_NOTICES.md)。许可证为 MIT。
+
+显式真实验收入口（会产生最多 20 次累计 API 请求，不属于测试套件）：
+
+```sh
+ROUTER_DOCKER_CONTEXT=colima node scripts/live-object-acceptance.mjs /absolute/private/auth.json /absolute/new-output-directory
+```
+
+Linux/Docker Desktop 将 context 值改为所用环境（默认可留空）。输出目录必须不存在，以免覆盖旧证据。

@@ -1,0 +1,35 @@
+{
+  "backend": "executable-rule-v1",
+  "rule_id": "list-files",
+  "description": "Maintain a deterministic read-only rule for verified request family list-files. Preserve past correct behavior, abstain outside supported scope.",
+  "trigger": "trigger.py",
+  "executor": "executor.py",
+  "args_schema": {
+    "type": "object",
+    "properties": {},
+    "required": [],
+    "additionalProperties": false
+  },
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "maxLength": 65536
+      }
+    },
+    "required": [
+      "text"
+    ],
+    "additionalProperties": false
+  },
+  "capabilities": [
+    "public-workspace-read"
+  ],
+  "source_ids": [
+    "observed-0",
+    "observed-1",
+    "observed-2"
+  ],
+  "parent_revision": null
+}

@@ -1,0 +1,41 @@
+{
+  "date": "2026-09-14",
+  "requestedModel": "deepseek-v4-flash",
+  "providerIdentityVerified": false,
+  "data": "synthetic directory tasks, outcomes measured by host evaluator",
+  "initialRegistry": "empty",
+  "verifiedPastRequests": 3,
+  "admissionCases": 4,
+  "maintenanceAttempts": 2,
+  "modelCalls": 15,
+  "httpRequests": 15,
+  "unknownUsageCalls": 0,
+  "usage": {
+    "inputTokens": 23744,
+    "outputTokens": 2886,
+    "cacheReadTokens": 45824,
+    "cacheWriteTokens": 0,
+    "reasoningTokens": 0,
+    "totalInputTokens": 69568
+  },
+  "maintenanceWallTimeMs": 48043.75754200001,
+  "learnedRevision": "c74da4e05e488b765f7bcb68e167e7b9cf3bc03851bda5c8c0f48a8b7af575b9",
+  "newFileTask": {
+    "success": true,
+    "expected": "new-after-learning.txt\n",
+    "directRouteDurationMs": 413.2244999999966,
+    "fullDshSuccess": true,
+    "networkAttempts": 0
+  },
+  "boundary": {
+    "request": "list hidden files",
+    "action": "fallback"
+  },
+  "limitations": [
+    "Single task family and one live model run; not a benchmark",
+    "First maintenance attempt validated but did not activate; second resumed and activated the same revision",
+    "No live repair of a failing candidate was needed; repair tests use an offline provider",
+    "Additional trigger phrasings are not covered by this acceptance",
+    "No net cost, accuracy or generalization claim"
+  ]
+}
