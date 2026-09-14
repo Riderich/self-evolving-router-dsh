@@ -4,7 +4,6 @@ import { writeFile, readFile, mkdtemp, rm } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'
 import { ruleFixture, shared } from './rule-helpers.js'
-import { Store } from '../lib/store.js'
 import { processOutput } from '../lib/rule-worker.js'
 
 test('pinned full DSH serves object rule before provider/prompt and records zero model calls', { skip: process.env.ROUTER_PROFILE_TEST !== '1' }, async t => {
@@ -25,16 +24,14 @@ test('pinned full DSH serves object rule before provider/prompt and records zero
 
 test('full DSH fallback usage belongs to object backend and does not start legacy synthesis', { skip: process.env.ROUTER_PROFILE_TEST !== '1' }, async t => {
   const f = await ruleFixture(t)
-  await f.store.configure({ enabled: false })
-  // Existing benchmark tool adapter still reads its own execution configuration;
-  // this fixture does not claim the F5 object benchmark migration is complete.
-  await new Store(f.root).configure({ enabled: false, learning: false, image: 'sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b', snapshotDirectory: shared, dockerContext: 'colima' })
+  await f.store.configure({ enabled: false, pids: 64 })
+  const image = (await f.store.read()).config.image
   const control = await mkdtemp(join(shared, 'object-fallback-control-'))
   t.after(() => rm(control, { recursive: true, force: true }))
   const auth = join(control, 'auth.json'), backend = join(control, 'backend.json'), calls = join(control, 'calls.jsonl'), journal = join(control, 'tools.jsonl')
   await writeFile(join(f.root, 'ok.txt'), 'fixture')
   await writeFile(auth, JSON.stringify({ apiKey: 'offline-only', baseURL: 'https://benchmark.invalid/v1' }), { mode: 0o600 })
-  await writeFile(backend, JSON.stringify({ root: f.root, image: 'sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b', journal }))
+  await writeFile(backend, JSON.stringify({ root: f.root, image, journal }))
   await writeFile(calls, '')
   const loader = join(f.root, '.mock.mjs')
   await writeFile(loader, `process.env.BENCH_TEST_CALLS=${JSON.stringify(calls)};process.env.BENCH_TEST_COMMAND='ls -1 /testbed';await import(${JSON.stringify(new URL('./mock-benchmark-provider.js', import.meta.url).href)});`)

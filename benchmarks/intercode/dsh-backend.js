@@ -3,6 +3,7 @@ import { appendFile, readFile, realpath } from 'node:fs/promises'
 import { resolve, posix, join } from 'node:path'
 import { DockerExecutor } from '../../lib/executor.js'
 import { validateConfig } from '../../lib/schema.js'
+import { RuleStore } from '../../lib/rule-store.js'
 export const name = 'intercode-readonly-backend'
 export const inject = ['tools', 'systemPrompt']
 
@@ -17,8 +18,20 @@ export async function loadBackend(path) {
   const input = JSON.parse(await readFile(path, 'utf8'))
   const root = await realpath(process.cwd())
   if (await realpath(input.root) !== root) throw Error('Benchmark root must match session cwd')
-  const state = JSON.parse(await readFile(join(root, '.dsh/prellm-router/state.json'), 'utf8'))
-  const config = validateConfig(state.config)
+  const objects = new RuleStore(root)
+  let config
+  if (await objects.exists()) {
+    const state = await objects.read(), c = state.config
+    if (state.maintenance?.config?.enabled) throw Error('Benchmark request sessions require maintenance disabled')
+    // DockerExecutor and RuleWorker expose the same public snapshot and image.
+    // DockerExecutor fixes these resources; reject mismatched comparisons.
+    if (c.memoryMb !== 128 || c.cpus !== 1 || c.pids !== 64) throw Error('Benchmark resource limits must match executor')
+    config = validateConfig({ image: c.image, dockerCommand: c.dockerCommand, dockerContext: c.dockerContext,
+      snapshotDirectory: c.snapshotDirectory, timeoutMs: c.executionTimeoutMs, maxOutputBytes: c.maxOutputBytes, learning: false })
+  } else {
+    const state = JSON.parse(await readFile(join(root, '.dsh/prellm-router/state.json'), 'utf8'))
+    config = validateConfig(state.config)
+  }
   if (config.image !== input.image || config.learning) throw Error('Benchmark requires matching pinned image and learning:false')
   const journal = resolve(input.journal)
   if (journal === root || journal.startsWith(root + '/')) throw Error('Benchmark journal must be outside exposed workspace')

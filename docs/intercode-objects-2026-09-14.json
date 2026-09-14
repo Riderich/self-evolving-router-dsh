@@ -1,0 +1,244 @@
+{
+  "date": "2026-09-14",
+  "protocol": "intercode-rule-objects-dev-v1",
+  "sourceCommit": "c3e46d827cfc9d4c704ec078f7abf9f41e3191d8",
+  "originalTaskIndices": [
+    20,
+    22,
+    28,
+    40,
+    56
+  ],
+  "split": "previously used development tasks; not sealed; no synthetic reuse tasks",
+  "physical": {
+    "calls": 53,
+    "unknownUsage": 0,
+    "unknownCacheSplit": 0,
+    "promptTokens": 345017,
+    "outputTokens": 10543,
+    "cachedInputTokens": 257792,
+    "uncachedInputTokens": 87225,
+    "totalTokens": 355560
+  },
+  "conditions": {
+    "B0": {
+      "correct": 5,
+      "tasks": 5,
+      "correctAutomation": 0,
+      "incorrectAutomation": 0,
+      "futureCorrectAutomation": 0,
+      "totalMs": 27700.02208300001,
+      "requestMs": 27700.02208300001,
+      "maintenanceMs": 0,
+      "usage": {
+        "calls": 13,
+        "unknownUsage": 0,
+        "unknownCacheSplit": 0,
+        "promptTokens": 27572,
+        "outputTokens": 700,
+        "cachedInputTokens": 6144,
+        "uncachedInputTokens": 21428,
+        "totalTokens": 28272
+      },
+      "hostUsage": {
+        "inputTokens": 21428,
+        "cacheReadTokens": 6144,
+        "cacheWriteTokens": 0,
+        "outputTokens": 700
+      },
+      "boundaryChecks": 0,
+      "boundaryMisroutes": 0
+    },
+    "B1": {
+      "correct": 5,
+      "tasks": 5,
+      "correctAutomation": 5,
+      "incorrectAutomation": 0,
+      "futureCorrectAutomation": 2,
+      "totalMs": 13125.943458000023,
+      "requestMs": 4242.184500000023,
+      "maintenanceMs": 8883.758958,
+      "usage": {
+        "calls": 0,
+        "unknownUsage": 0,
+        "unknownCacheSplit": 0,
+        "promptTokens": 0,
+        "outputTokens": 0,
+        "cachedInputTokens": 0,
+        "uncachedInputTokens": 0,
+        "totalTokens": 0
+      },
+      "hostUsage": {
+        "inputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "outputTokens": 0
+      },
+      "boundaryChecks": 4,
+      "boundaryMisroutes": 0
+    },
+    "B2": {
+      "correct": 5,
+      "tasks": 5,
+      "correctAutomation": 0,
+      "incorrectAutomation": 0,
+      "futureCorrectAutomation": 0,
+      "totalMs": 35351.756751000015,
+      "requestMs": 23878.237167000007,
+      "maintenanceMs": 11473.519584000009,
+      "usage": {
+        "calls": 11,
+        "unknownUsage": 0,
+        "unknownCacheSplit": 0,
+        "promptTokens": 23022,
+        "outputTokens": 539,
+        "cachedInputTokens": 2048,
+        "uncachedInputTokens": 20974,
+        "totalTokens": 23561
+      },
+      "hostUsage": {
+        "inputTokens": 20974,
+        "cacheReadTokens": 2048,
+        "cacheWriteTokens": 0,
+        "outputTokens": 539
+      },
+      "boundaryChecks": 4,
+      "boundaryMisroutes": 0
+    },
+    "B3": {
+      "correct": 5,
+      "tasks": 5,
+      "correctAutomation": 1,
+      "incorrectAutomation": 0,
+      "futureCorrectAutomation": 1,
+      "totalMs": 120844.280708,
+      "requestMs": 20744.613250000017,
+      "maintenanceMs": 100099.667458,
+      "usage": {
+        "calls": 29,
+        "unknownUsage": 0,
+        "unknownCacheSplit": 0,
+        "promptTokens": 246757,
+        "outputTokens": 7205,
+        "cachedInputTokens": 195072,
+        "uncachedInputTokens": 51685,
+        "totalTokens": 253962
+      },
+      "hostUsage": {
+        "inputTokens": 51685,
+        "cacheReadTokens": 195072,
+        "cacheWriteTokens": 0,
+        "outputTokens": 7205
+      },
+      "boundaryChecks": 4,
+      "boundaryMisroutes": 0
+    },
+    "B4": {
+      "correct": 5,
+      "tasks": 5,
+      "correctAutomation": 1,
+      "incorrectAutomation": 0,
+      "futureCorrectAutomation": 1,
+      "totalMs": 157651.94754199998,
+      "requestMs": 20169.543792999983,
+      "maintenanceMs": 137482.403749,
+      "usage": {
+        "calls": 41,
+        "unknownUsage": 0,
+        "unknownCacheSplit": 0,
+        "promptTokens": 319657,
+        "outputTokens": 9929,
+        "cachedInputTokens": 253696,
+        "uncachedInputTokens": 65961,
+        "totalTokens": 329586
+      },
+      "hostUsage": {
+        "inputTokens": 65961,
+        "cacheReadTokens": 253696,
+        "cacheWriteTokens": 0,
+        "outputTokens": 9929
+      },
+      "boundaryChecks": 4,
+      "boundaryMisroutes": 0
+    }
+  },
+  "accountingChecks": [
+    {
+      "check": "every physical request attributed once",
+      "passed": true
+    },
+    {
+      "check": "physical HTTP cap",
+      "passed": true
+    },
+    {
+      "check": "source reset fingerprints unchanged",
+      "passed": true
+    },
+    {
+      "check": "routed turns make zero HTTP requests",
+      "passed": true
+    },
+    {
+      "check": "known provider usage and complete stream terminator",
+      "passed": true
+    },
+    {
+      "check": "no exact future request text in maintenance inputs",
+      "passed": true,
+      "limit": "Exact-text audit only; not a general proof of no contamination."
+    },
+    {
+      "check": "B0 host/provider token reconciliation",
+      "passed": true
+    },
+    {
+      "check": "B1 host/provider token reconciliation",
+      "passed": true
+    },
+    {
+      "check": "B2 host/provider token reconciliation",
+      "passed": true
+    },
+    {
+      "check": "B3 host/provider token reconciliation",
+      "passed": true
+    },
+    {
+      "check": "B4 host/provider token reconciliation",
+      "passed": true
+    }
+  ],
+  "repairProgress": [
+    1,
+    7,
+    10,
+    10
+  ],
+  "admissionCases": 10,
+  "scopeCounterexamples": {
+    "kind": "post-hoc synthetic, not original benchmark score",
+    "tests": 2,
+    "incorrectAutomation": 2,
+    "modelCalls": 0
+  },
+  "limitations": [
+    "Previously used development tasks; not sealed or natural chronological traffic.",
+    "Pinned InterCode data exported into public read-only view; independent exact output oracle, not official leaderboard reward.",
+    "B1 sees all selected request forms, an optimistic handwritten control. B2 uses past wording templates and a handwritten executor.",
+    "Single run, one family, two future-original opportunities; no statistical or net monetary saving claim.",
+    "Same gateway alias does not prove fixed model weights. Prices unknown. Shared stages charged to every logical condition.",
+    "Generated trigger ignored subdirectory and exclusion constraints in post-hoc diagnostics. Do not treat four admission boundaries as complete scope validation.",
+    "Initial activation persisted but maintenance process then exited on budget; B4 update exhausted 12 additional calls without a submitted revision."
+  ],
+  "regression": {
+    "passed": 40,
+    "failed": 0,
+    "skipped": 0
+  },
+  "scoreSemantics": "Exact integer string after trimming CLI leading/trailing whitespace; not raw stdout byte equality.",
+  "observedProviderModelLabels": [
+    "deepseek-v4-flash-0731",
+    "deepseek-v4-flash-ga-260731"
+  ]
+}
