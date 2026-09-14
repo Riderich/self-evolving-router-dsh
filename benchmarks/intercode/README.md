@@ -1,5 +1,9 @@
 # InterCode 开发评测适配器
 
+## Current protocol: train, freeze, test
+
+The next run uses [sequential training followed by frozen testing](../../docs/train-test-benchmark.md). `train-test.mjs --inspect` checks the pinned 3-training/6-test split without model calls. B4 can evolve after each training task; every condition is frozen before test task 1. The older runners below reproduce historical online-development experiments and are not this new protocol.
+
 ## 2026-09-14：新 Python 规则对象对照
 
 `object-benchmark.mjs` 已接通对象后端的完整 DSH B0–B4，并通过统一只读镜像/快照执行。原始五题（20、22、28、40、56）全部最终答对，B3/B4 各自动完成 1 题；实际 53 API。B4 多花 12 次维护，没有新增命中，未回本。真实局部修复通过了准入，但事后两个 synthetic 范围反例均错误自动化。见[公开结构化结果](../../docs/intercode-objects-2026-09-14.json)。下方均为旧后端历史。

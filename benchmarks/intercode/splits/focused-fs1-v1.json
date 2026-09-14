@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "sourceCommit": "c3e46d827cfc9d4c704ec078f7abf9f41e3191d8",
+  "datasetSha256": "60f88e1aacc7ebba535093f9890c5c33203f4e5f32958e0e94fbe90ec4f01c82",
+  "exposure": "reused-development",
+  "train": [20, 22, 33],
+  "test": [28, 40, 56, 0, 17, 53],
+  "maxHTTPCalls": 160,
+  "maintenanceMaxCalls": 24,
+  "attemptsPerStage": 2
+}

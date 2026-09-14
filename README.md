@@ -105,3 +105,7 @@ ROUTER_DOCKER_CONTEXT=colima node scripts/live-object-acceptance.mjs /absolute/p
 Linux/Docker Desktop 将 context 值改为所用环境（默认可留空）。输出目录必须不存在，以免覆盖旧证据。
 
 原有 `scripts/setup-demo.mjs` 仍用于从空注册表启动的合成工程演示，不是当前默认起点。`scripts/live-starter-acceptance.mjs AUTH NEW_OUTPUT` 是显式付费的种子增量工程验收（最多 20 调用）；离线集成用 `ROUTER_PROFILE_TEST=1 node --test tests/starter-profile.test.js`。几条验收成功不证明 few-shot 比从零生成更有效，也不代表广泛安全或净节省。
+
+## Focused train/test evaluation
+
+The next benchmark uses sequential training, persistent rule updates and a frozen test phase. See [the protocol, split and commands](docs/train-test-benchmark.md). Existing development results are preserved; this protocol change is not a new measured performance result.

@@ -5,7 +5,7 @@ const auth = JSON.parse(readFileSync(process.env.ROUTER_ACCEPTANCE_AUTH, 'utf8')
 const target = new URL(auth.baseURL), journal = process.env.ROUTER_ACCEPTANCE_JOURNAL
 const original = globalThis.fetch
 const maxCalls = Number(process.env.ROUTER_ACCEPTANCE_MAX_CALLS ?? 12)
-if (!Number.isSafeInteger(maxCalls) || maxCalls < 1 || maxCalls > 100) throw Error('Invalid explicit experiment call ceiling')
+if (!Number.isSafeInteger(maxCalls) || maxCalls < 1 || maxCalls > 160) throw Error('Invalid explicit experiment call ceiling')
 const redact = text => String(text).replaceAll(auth.apiKey, '[REDACTED]')
 const record = data => appendFileSync(journal, redact(JSON.stringify({ time: new Date().toISOString(), ...data })) + '\n', { mode: 0o600 })
 globalThis.fetch = async (input, init) => {

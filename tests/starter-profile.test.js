@@ -1,3 +1,4 @@
+import { freezeRouter, assertFrozen } from '../benchmarks/intercode/train-test-protocol.js'
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { mkdir, mkdtemp, readFile, writeFile, rm } from 'node:fs/promises'
@@ -35,7 +36,9 @@ test('full DSH uses working seed as few-shot, edits only trigger, retains old ro
  for(const request of ['show visible files in dir1','show visible files excluding ok.txt','count lines in all php files in /testbed/dir1 recursively'])assert.equal((await new ObjectRouter(root).route(request)).kind,'fallback')
  const deny=join(control,'deny.mjs'),attempts=join(control,'network-attempts');await writeFile(attempts,'')
  await writeFile(deny,`import{appendFileSync}from'node:fs';globalThis.fetch=async()=>{appendFileSync(${JSON.stringify(attempts)},'attempt\\n');throw Error('NO_NETWORK')}`)
+ const frozen=await freezeRouter(store)
  const run=await processOutput(process.execPath,['--import',deny,fileURLToPath(new URL('../run.js',import.meta.url)),'show visible files'],{cwd:root,timeoutMs:180000})
+ await assertFrozen(new RuleStore(root),frozen)
  assert.equal(run.exitCode,0,JSON.stringify(run));assert.equal(run.stdout.trim(),'ok.txt');assert.equal(await readFile(attempts,'utf8'),'')
  if(process.env.ROUTER_STARTER_EVIDENCE){const out=process.env.ROUTER_STARTER_EVIDENCE;await mkdir(out,{recursive:true});await writeFile(join(out,'initial-state.json'),JSON.stringify(initial,null,2));await writeFile(join(out,'state.json'),JSON.stringify(state,null,2));await writeFile(join(out,'provider-requests.jsonl'),await readFile(calls));await writeFile(join(out,'summary.json'),JSON.stringify({passed:true,kind:'offline model fixture; real DSH and Docker; no paid learning result',actualExternalCalls:0,mockCalls:6,parentPreserved:true,executorUnchanged:true,otherRulesUnchanged:true,dsh:run,networkAttempts:0},null,2))}
 })
