@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-09-15
 
+- `npm run demo` prepares a fresh zero-API example, downloads the image only when missing and verifies the result; no npm dependency install or DSH profile required.
+
 - Current v2 onboarding, zero-model quick start, experiment results and explicit alpha boundaries.
 - Read-only `npm run doctor` checks the pinned runtime, profile and Docker setup.
 - CLI respects the configured Docker context, rejects recursive snapshot paths and reports development failure with a nonzero exit code.

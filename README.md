@@ -28,25 +28,17 @@ Routing makes no model calls; development uses your configured model. Passing ag
 
 ## Quick start: no API required
 
-Requirements: Node.js 22+, npm and running Docker. DSH is pinned to `0.1.0-rc.6`; the lockfile fixes dependencies. Run from a fresh clone:
+Install Node.js 22+ (including npm) and start Docker, then run:
 
 ```sh
 git clone https://github.com/sra-research/self-evolving-router-dsh.git
 cd self-evolving-router-dsh
-npm ci
-node install.js
-docker pull python@sha256:9d2e5553305c7c7b0097999bb17187c69b921ccd6bc9d40e4bb5ebe652c00285
-npm run doctor
-mkdir -p .sandbox/demo-v2 .sandbox/snapshots-v2
-printf 'hello\nworld\n' > .sandbox/demo-v2/example.php
-node v2.js init .sandbox/demo-v2 .sandbox/snapshots-v2
-node v2.js route .sandbox/demo-v2 "Count total lines in PHP files in /testbed"
-node v2.js status .sandbox/demo-v2
+npm run demo
 ```
 
-Expect `"kind": "completed"`, `"text": "2\n"` and `"modelCalls": 0`. The direct `route` command returns fallback JSON for unsupported requests; it never calls a model. Use `node run.js` for the full agent; see [getting started (中文)](docs/getting-started.md).
+The demo checks Docker, downloads the pinned image if missing, creates an isolated example, initializes the capability and runs the request. Expect **`2 lines · 0 model calls`**. Repeat runs use fresh `.sandbox/demo-*` directories and never overwrite existing tasks.
 
-For Colima, first set `export DOCKER_CONTEXT=colima` and `export ROUTER_DOCKER_CONTEXT=colima`. Otherwise the configured Docker context is used; `ROUTER_DOCKER_CONTEXT` can override it. Both directories must be shared with Docker, and snapshots must live outside the task directory. Initialization refuses to overwrite an existing registry; use fresh directories when repeating the example.
+This deterministic example needs no `npm ci`, DSH profile or API credentials. If Colima is not your default context, use `ROUTER_DOCKER_CONTEXT=colima npm run demo`. The repository directory must be shared with Docker. See [getting started (中文)](docs/getting-started.md) for full-agent installation and manual commands.
 
 ## From routing to learning
 

@@ -2,6 +2,28 @@
 
 先完成 [README 的无 API 示例](../README.md)。仓库脚本默认从仓库根目录运行，任务目录须预先存在。`install.js` 注册 router profile，不调用模型；默认写入 `DSH_HOME`，未设置时为 `~/.dsh`。已有固定 runtime 可通过 `DSH_ROUTER_RUNTIME` 指定。
 
+## 接入完整 Agent
+
+快速 Demo 只体验确定性路由。要使用完整 DSH、模型回退和开发功能，在仓库根目录执行：
+
+```sh
+npm ci
+node install.js
+npm run doctor
+```
+
+依赖固定为 DSH `0.1.0-rc.6`。如尚未跑 Demo，可先运行 `npm run demo` 下载并验证镜像。`install.js` 不下载依赖。
+
+## 手动建立任务目录
+
+下面的独立目录供本页后续命令使用；快照必须在任务目录之外。已有目录请使用新名称，init 不覆盖已有注册表。
+
+```sh
+mkdir -p .sandbox/demo-v2 .sandbox/snapshots-v2
+printf 'hello\nworld\n' > .sandbox/demo-v2/example.php
+node v2.js init .sandbox/demo-v2 .sandbox/snapshots-v2
+```
+
 ## 命令与状态
 
 ```sh

@@ -28,25 +28,17 @@ flowchart LR
 
 ## 快速开始：不需要 API
 
-需要 Node.js 22+、npm、已启动的 Docker。支持固定 DSH `0.1.0-rc.6`；依赖由锁文件固定。在新克隆的仓库根目录执行：
+准备 Node.js 22+（含 npm）和已启动的 Docker，然后运行：
 
 ```sh
 git clone https://github.com/sra-research/self-evolving-router-dsh.git
 cd self-evolving-router-dsh
-npm ci
-node install.js
-docker pull python@sha256:9d2e5553305c7c7b0097999bb17187c69b921ccd6bc9d40e4bb5ebe652c00285
-npm run doctor
-mkdir -p .sandbox/demo-v2 .sandbox/snapshots-v2
-printf 'hello\nworld\n' > .sandbox/demo-v2/example.php
-node v2.js init .sandbox/demo-v2 .sandbox/snapshots-v2
-node v2.js route .sandbox/demo-v2 "Count total lines in PHP files in /testbed"
-node v2.js status .sandbox/demo-v2
+npm run demo
 ```
 
-预期结果包含 `"kind": "completed"`、`"text": "2\n"`、`"modelCalls": 0`。`route` 是直接诊断入口：不支持时返回 fallback JSON，不会自动调用模型。完整 Agent 使用 `node run.js`，见 [开始使用](docs/getting-started.md)。
+Demo 自动检查 Docker，首次按需下载固定镜像，创建独立示例目录，初始化能力并执行请求。成功时显示 **`2 lines · 0 model calls`**。可以重复运行，每次使用新的 `.sandbox/demo-*` 目录，不覆盖已有任务。
 
-Colima 用户先设置 `export DOCKER_CONTEXT=colima` 和 `export ROUTER_DOCKER_CONTEXT=colima`。其他环境默认遵循 Docker 当前配置；`ROUTER_DOCKER_CONTEXT` 可覆盖。任务和快照目录都须可被 Docker 共享，快照目录必须在任务目录之外。`init` 拒绝覆盖已有注册表；重试示例时使用新目录。
+这个确定性示例无需 `npm ci`、DSH profile 或 API。Colima 如未设为默认 context，可使用 `ROUTER_DOCKER_CONTEXT=colima npm run demo`。仓库目录需可被 Docker 共享。完整 Agent 接入与手动命令见 [开始使用](docs/getting-started.md)。
 
 ## 从试用到学习
 

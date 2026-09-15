@@ -16,6 +16,8 @@ jobs:
           node-version: '22'
           cache: npm
           cache-dependency-path: npm-shrinkwrap.json
+      - run: npm run demo
+      - run: npm run demo
       - run: npm ci
       - run: npm run check
       - run: npm test
