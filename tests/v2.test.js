@@ -25,6 +25,8 @@ test('v2 independent fixtures, agent writes/runs/fails/repairs, atomic publicati
  await dev.command("printf '\n# development revision\n' >> /work/capabilities/files/parser.py")
  await dev.command("mkdir -p /work/capabilities/files/__pycache__; printf 'cache' > /work/capabilities/files/__pycache__/parser.pyc");
  const published=await dev.publish('files');assert(published.published);assert.notEqual(published.activeRevision,first)
+ // The fixture is owned by the container UID on Linux, so clean it in that container.
+ assert.equal((await dev.command('rm -rf /work/capabilities/files/__pycache__')).exitCode,0)
  await dev.command("printf 'def execute(task, context):\\n return {\"status\":\"completed\",\"value\":999}\\n' > /work/capabilities/files/executor.py")
  assert.equal((await dev.publish('files')).published,false);assert.equal((await store.read()).active.files,published.activeRevision)
  await dev.command("ln -s /etc/passwd /work/capabilities/files/stolen.txt");await assert.rejects(dev.publish('files'),/snapshot/);await dev.command("rm /work/capabilities/files/stolen.txt");
