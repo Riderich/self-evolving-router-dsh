@@ -9,3 +9,7 @@ Training uses keyword/argument/constraint variations and altered public InterCod
 The model may produce no improvements, too many development attempts, or an incorrect published capability. Agent-authored tests plus locked regressions are supporting development evidence, not independent certification. Full lifecycle costs matter. Raw experiments and credentials are private by default.
 
 Run offline full-session integration with `ROUTER_V2_PROFILE_TEST=1 ROUTER_V2_SHARED=/absolute/docker-shared/path node --test tests/curriculum-profile.test.js`. A pinned DSH installation and Docker image are required as described in `autonomous-v2.md`.
+
+## Explicit responsibility guidance
+
+The original autonomous condition only grants permission. Set `ROUTER_CURRICULUM_GUIDANCE=responsibility` to run the `guided` arm: the opening instruction explicitly makes task completion AND actively judging/improving the router responsibilities. The agent still chooses timing, edits, tests and publication, with no periodic or final reminder. This arm can be compared against the earlier batch control on the identical stream; sequential additions on opened development data are exploratory, not confirmatory. Original permission-only results are preserved.
