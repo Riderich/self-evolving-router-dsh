@@ -4,7 +4,7 @@ v2 是与旧 executable-rule-v1 并存的新后端。运行时优先检查 `.dsh
 
 ## 使用
 
-准备与原插件相同的固定 DSH rc.6 runtime、profile、Docker 镜像和私有认证文件。独立 profile 必须能够解析原 runtime 的 `state/profiles/node_modules` 依赖，不能只链接顶层 node_modules。
+先按 [开始使用](getting-started.md) 安装固定 DSH runtime、profile 和 Docker 镜像，并运行 `npm run doctor`。下面是底层 JavaScript 接口示例；连续上下文训练见 [训练协议](continuous-training.md)。
 
 ```js
 import { CapabilityStore } from './lib/v2/core.js'
@@ -59,7 +59,7 @@ node benchmarks/intercode/v2-benchmark.mjs --inspect DATA_JSON EXPORTED_FS1
 node benchmarks/intercode/v2-benchmark.mjs PRIVATE_AUTH DATA_JSON EXPORTED_FS1 NEW_OUTPUT
 ```
 
-新协议 3 训/6 测、B0–B4 同流。3 条训练原始请求之后才出现测试；B3 集中开发，B4 每题可自行决定修改或不修改。主任务 fallback 相同；开发重试不改写首次成绩。B2 按已观察请求更新手写参数模板，不使用隐藏评分反馈。
+早期 v2 协议为 3 训/6 测、B0–B4 同流；最新 24 训/12 测连续上下文协议见 [训练说明](continuous-training.md) 和 [结果](results.md)。早期协议中，3 条训练原始请求之后才出现测试；B3 集中开发，B4 每题可自行决定修改或不修改。主任务 fallback 相同；开发重试不改写首次成绩。B2 按已观察请求更新手写参数模板，不使用隐藏评分反馈。
 
 训练历史只含请求、实际输出、工具轨迹，不提供 family、gold 命令、oracle 夹具。测试修改公开文件内容，混合原始措辞和预先声明的新表达，是探索性开发评测，不是官方 InterCode 或 sealed。计数与十六进制任务均声明严格输出接口。
 

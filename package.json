@@ -50,7 +50,8 @@
     "test:profile": "ROUTER_PROFILE_TEST=1 node --test tests/full-profile.test.js tests/rule-profile.test.js",
     "test:evolution": "ROUTER_PROFILE_TEST=1 node --test tests/maintenance-objects.test.js",
     "prepack": "npm run check >&2",
-    "test:route": "ROUTER_PROFILE_TEST=1 node --test --test-name-pattern='serves object rule' tests/rule-profile.test.js"
+    "test:route": "ROUTER_PROFILE_TEST=1 node --test --test-name-pattern='serves object rule' tests/rule-profile.test.js",
+    "doctor": "node scripts/doctor.mjs"
   },
   "dsh": {
     "bundle": {

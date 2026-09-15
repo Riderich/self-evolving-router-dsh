@@ -1,52 +1,21 @@
 # Execution and learning boundaries
 
-The trusted host owns the registry, admission cases, model budgets and verified
-history. The operator/evaluator certifies outcomes. Ordinary assistant completion
-is not verification. History and validation feedback are sent to the configured
-model provider; ingest only data you permit it to receive.
+## Current v2 backend
 
-The maintenance model receives three tools: `rule`, `rule_skill` and the DSH
-`str_replace_editor` schema backed by an isolated editor. The editor mounts only
-the current draft read-write. No shell, network, registry or oracle mount is
-available. Manifest identity, source IDs and parent revision are rechecked on
-submission. Helpers and development tests never replace the trusted admission
-oracle. All admitted programs remain read-only.
+Generated Python and model-written tests are untrusted. The host owns registry transactions, snapshots, resource limits, call budgets and freeze enforcement. The operator, host filesystem and Docker daemon are outside the hostile-code threat model.
 
-Trigger containers have no task mount. Executor containers see a public copy at
-`/testbed`: no hidden entries, symlinks, node_modules or vendor. This filter is not
-a secret detector: do not keep secrets in otherwise public files. The trusted
-host filesystem, Docker daemon and operator are outside the hostile-code threat
-model. Concurrent malicious host filesystem mutation is not supported. Resource
-limits, no network, non-root UID and a read-only root filesystem are mandatory.
+Parsing has no task mount. Execution sees a read-only public snapshot at `/testbed`, excluding hidden entries, links, node_modules and vendor. **This is a visibility filter, not a secret detector.** Publicly named files can contain secrets. Containers have no network, a non-root UID, a read-only root filesystem and bounded resources. Unknown or conflicting interpretations, timeouts and execution errors fall back.
 
-A match is accepted only if exactly one rule matches and every other trigger
-returns no_match. Any abstention, conflict, timeout, schema failure, changed proof
-or environment causes fallback. Routing never asks an LLM to decide.
+Development has isolated writable capability, scratch and example-task directories plus read-only observed history. Credentials, registry, evaluator and future tasks are not mounted. Commands use new containers while mounted files persist. The model may run arbitrary commands within this boundary; this is not the legacy three-tool editor.
 
-Validation repeats exact task/output checks against the entire proposed active
-collection. Proofs bind the source, kernel, environment, admission suite and
-registry generation. Activation rechecks these bindings. Disabling one entry
-invalidates the old collection proof until the reduced collection is validated.
-Rollback also requires current validation. Split/merge preserve the original
-oracle families through a trusted mapping; each new member must activate on a
-positive case.
+Publication snapshots code inside the container, rejects links, ignores ordinary Python/pytest caches, reproduces agent-declared tests and locked regressions, then atomically changes the active version. These tests are supporting evidence, not an independent semantic oracle. A published program can still be wrong. Rollback restores the published parent in an unfrozen development session. Freeze forbids development and registry changes.
 
-Admission is adaptively queried during repair. It is not a sealed future test and
-does not prove behavior beyond the checked scope. A future audit must remain
-outside the maintenance input. Model-call reservations persist before dispatch;
-uncertain calls are not automatically replayed. Call limits are cumulative per
-workspace. Raising the limit is a trusted operator decision.
+## Data and ordinary fallback
 
-State and evidence currently use a single atomic JSON store with an exclusive
-writer lock. This alpha targets small registries and bounded maintenance jobs;
-large histories need an explicit export/archive policy and a scalable journal.
-Route duration returned to the caller includes event persistence; the stored
-route event records work up to persistence. Container cleanup may exceed the
-execution deadline by its bounded cleanup allowance. This is not a hard real-time
-system. Do not claim net savings without accounting for this overhead.
+Permitted requests, file/tool outputs, history and development feedback enter the configured provider's context. Ingest only data you authorize it to receive. Do not commit auth files, state or transcripts. Call and context limits do not guarantee successful publication.
 
-The router profile disables automatic LLM session titles for all routing
-conditions. Maintenance rejects auxiliary requests (including model compaction)
-before dispatch unless they carry the exact maintenance tool surface. When the
-context budget is exhausted, use the persistent draft/feedback in a new bounded
-attempt; do not make an unaccounted background summary call.
+**Ordinary DSH fallback retains the base agent's permissions and behavior.** The plugin does not make it universally read-only. Dedicated benchmark solve tools expose only the current read-only task; continuous training explicitly bypasses the router to collect model trajectories.
+
+Current v2 learning starts through explicit develop/training entry points, not an automatic background service. Large histories, concurrent users, malicious host filesystem races and production write automation are not established support targets. Lifecycle overhead can exceed savings.
+
+For the older backend, see [historical v1 boundaries](legacy-boundaries.md). Its verified-history/oracle-assisted admission and rollback semantics differ from v2.
