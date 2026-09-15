@@ -1,6 +1,6 @@
 # Self-evolving Router for DSH
 
-[![CI](https://github.com/Riderich/self-evolving-router-dsh/actions/workflows/ci.yml/badge.svg)](https://github.com/Riderich/self-evolving-router-dsh/actions/workflows/ci.yml)
+[![CI](https://github.com/sra-research/self-evolving-router-dsh/actions/workflows/ci.yml/badge.svg)](https://github.com/sra-research/self-evolving-router-dsh/actions/workflows/ci.yml)
 
 在 DeepSeek Harness 调用模型之前，用确定性程序完成可明确处理的请求；未知、歧义或执行失败时回退到原 Agent。Agent 可以从真实工作轨迹中修改、测试和持久发布这些程序。
 
@@ -29,7 +29,7 @@ flowchart LR
 需要 Node.js 22+、npm、已启动的 Docker。支持固定 DSH `0.1.0-rc.6`；依赖由锁文件固定。在新克隆的仓库根目录执行：
 
 ```sh
-git clone https://github.com/Riderich/self-evolving-router-dsh.git
+git clone https://github.com/sra-research/self-evolving-router-dsh.git
 cd self-evolving-router-dsh
 npm ci
 node install.js

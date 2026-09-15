@@ -286,10 +286,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Riderich/self-evolving-router-dsh.git"
+    "url": "git+https://github.com/sra-research/self-evolving-router-dsh.git"
   },
-  "homepage": "https://github.com/Riderich/self-evolving-router-dsh#readme",
+  "homepage": "https://github.com/sra-research/self-evolving-router-dsh#readme",
   "bugs": {
-    "url": "https://github.com/Riderich/self-evolving-router-dsh/issues"
+    "url": "https://github.com/sra-research/self-evolving-router-dsh/issues"
   }
 }
