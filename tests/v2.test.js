@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import {readFile,mkdir,mkdtemp,writeFile,rm,cp} from 'node:fs/promises'
+import {readFile,mkdir,mkdtemp,writeFile,rm,cp,stat} from 'node:fs/promises'
 import {join} from 'node:path'
 import {tmpdir} from 'node:os'
 import {fileURLToPath} from 'node:url'
@@ -18,6 +18,7 @@ test('v2 independent fixtures, agent writes/runs/fails/repairs, atomic publicati
  const shared=process.env.ROUTER_V2_SHARED;assert(shared?.startsWith('/'));await mkdir(shared,{recursive:true});const root=await mkdtemp(join(shared,'v2-')),scratch=await mkdtemp(join(shared,'v2-snap-'));t.after(()=>rm(root,{recursive:true,force:true}));t.after(()=>rm(scratch,{recursive:true,force:true}));await writeFile(join(root,'a.php'),'a\nb\n');const store=new CapabilityStore(root),config={enabled:true,image,pythonVersion:'3.13.15',dockerContext:process.env.ROUTER_DOCKER_CONTEXT??'colima',snapshotDirectory:scratch,pids:64,triggerTimeoutMs:5000};assert((await installSeed(store,config)).published)
  const router=new CapabilityRouter(root);assert.equal((await router.route('Count total lines in PHP files in /testbed')).text,'2\n');const first=(await store.read()).active.files
  const sid=await startDevelopment(store),dev=new Development(store,sid)
+ const session=(await store.read()).sessions[sid];for(const dir of ['scratch','capabilities'])assert.equal((await stat(join(session.root,dir))).mode&0o777,0o777)
  let r=await dev.command("printf 'assert 2 == 3\n' > /work/scratch/test.py; python3 /work/scratch/test.py");assert.notEqual(r.exitCode,0)
  r=await dev.command("printf 'assert 2 == 2\n' > /work/scratch/test.py; python3 /work/scratch/test.py");assert.equal(r.exitCode,0)
  r=await dev.command("set -e; test ! -e /work/evaluator; test ! -e /work/task/.dsh; test -z \"$DEEPSEEK_API_KEY\"; ! echo bad > /work/history/observed.json");assert.equal(r.exitCode,0)
