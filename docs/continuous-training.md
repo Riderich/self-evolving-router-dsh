@@ -13,3 +13,5 @@ Run offline full-session integration with `ROUTER_V2_PROFILE_TEST=1 ROUTER_V2_SH
 ## Explicit responsibility guidance
 
 The original autonomous condition only grants permission. Set `ROUTER_CURRICULUM_GUIDANCE=responsibility` to run the `guided` arm: the opening instruction explicitly makes task completion AND actively judging/improving the router responsibilities. The agent still chooses timing, edits, tests and publication, with no periodic or final reminder. This arm can be compared against the earlier batch control on the identical stream; sequential additions on opened development data are exploratory, not confirmatory. Original permission-only results are preserved.
+
+In the guided arm, completing the last task returns `tasksComplete:true`, leaving the session open. The agent can still enter development, then explicitly call `finish_training`. This fixes an earlier host restriction that rejected genuine development attempts after all tasks were submitted. The original guided run remains failure evidence; it must not be described as absence of initiative.

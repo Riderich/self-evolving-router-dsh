@@ -5,7 +5,7 @@ const tool=(action,extra={})=>['training',{action,...extra}]
 const solve=['solve',{command:'wc -l < /testbed/a.txt'}]
 const edit=['bash',{command:"printf '\n# learned in ongoing task context\n' >> /work/capabilities/files/parser.py"}]
 const publish=['capability',{action:'publish',id:'files'}]
-const steps=mode==='batch'?[tool('next'),solve,tool('submit',{answer:'2'}),edit,publish,tool('end_development'),solve,tool('submit',{answer:'3'}),tool('end_development')]:[tool('next'),solve,tool('submit',{answer:'2'}),tool('begin_development',{reason:'Reuse observed line counting'}),edit,publish,tool('end_development'),solve,tool('submit',{answer:'3'})]
+const steps=mode==='guided'?[tool('next'),solve,tool('submit',{answer:'2'}),solve,tool('submit',{answer:'3'}),tool('begin_development',{reason:'Consolidate all completed task trajectories'}),edit,publish,tool('end_development'),tool('finish_training')]:mode==='batch'?[tool('next'),solve,tool('submit',{answer:'2'}),edit,publish,tool('end_development'),solve,tool('submit',{answer:'3'}),tool('end_development')]:[tool('next'),solve,tool('submit',{answer:'2'}),tool('begin_development',{reason:'Reuse observed line counting'}),edit,publish,tool('end_development'),solve,tool('submit',{answer:'3'})]
 globalThis.fetch=async(url,options)=>{
  if(String(url)!=='https://starter-test.invalid/v1/chat/completions')throw Error('External network denied')
  const body=JSON.parse(options.body);if(body.tools.length!==6)throw Error('Wrong training tools')
