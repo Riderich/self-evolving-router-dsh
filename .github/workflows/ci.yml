@@ -25,5 +25,5 @@ jobs:
       - run: ROUTER_DOCKER_TEST=1 node --test tests/train-test-docker.test.js
       - run: npm run test:evolution
       - run: ROUTER_PROFILE_TEST=1 node --test --test-concurrency=1 tests/rule-profile.test.js tests/starter-profile.test.js
-      - run: ROUTER_V2_DOCKER_TEST=1 ROUTER_V2_PROFILE_TEST=1 ROUTER_V2_SHARED="$GITHUB_WORKSPACE/.sandbox/v2-tests" node --test --test-concurrency=1 tests/v2.test.js tests/v2-profile.test.js
+      - run: ROUTER_V2_DOCKER_TEST=1 ROUTER_V2_PROFILE_TEST=1 ROUTER_V2_SHARED="$GITHUB_WORKSPACE/.sandbox/v2-tests" node --test --test-concurrency=1 tests/v2.test.js tests/v2-profile.test.js tests/curriculum-profile.test.js
       - run: npm pack --dry-run

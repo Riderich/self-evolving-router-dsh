@@ -113,3 +113,5 @@ Linux/Docker Desktop 将 context 值改为所用环境（默认可留空）。�
 ## Focused train/test evaluation
 
 The next benchmark uses sequential training, persistent rule updates and a frozen test phase. See [the protocol, split and commands](docs/train-test-benchmark.md). Existing development results are preserved; this protocol change is not a new measured performance result.
+
+Continuous-context task training and agent-chosen development timing: [experiment guide](docs/continuous-training.md).
