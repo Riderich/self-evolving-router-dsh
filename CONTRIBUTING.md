@@ -33,3 +33,5 @@ Changes to routing, isolation, proof binding or model-call accounting need a reg
 Keep credentials, real requests and provider transcripts out of commits. Use synthetic fixtures. Report the platform, runtime digest and exact test commands in pull requests. Distinguish skipped tests and environment failures from passes. Avoid savings claims based only on avoided model calls; include learning and validation costs.
 
 See [boundaries](docs/BOUNDARIES.md), [troubleshooting](docs/troubleshooting.md) and [security reporting](SECURITY.md).
+
+Keep `README.md` and `README.zh-CN.md` aligned when changing commands, claims or results. Update both documentation indexes when adding or moving a guide.

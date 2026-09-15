@@ -1,6 +1,6 @@
 # Historical v1 boundaries
 
-This document describes the legacy rule-object backend. For v2 see [current boundaries](BOUNDARIES.md).
+This document describes the legacy rule-object backend. For v2 see [current boundaries](../BOUNDARIES.md).
 
 # Execution and learning boundaries
 

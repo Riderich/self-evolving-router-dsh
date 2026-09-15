@@ -18,4 +18,4 @@ Permitted requests, file/tool outputs, history and development feedback enter th
 
 Current v2 learning starts through explicit develop/training entry points, not an automatic background service. Large histories, concurrent users, malicious host filesystem races and production write automation are not established support targets. Lifecycle overhead can exceed savings.
 
-For the older backend, see [historical v1 boundaries](legacy-boundaries.md). Its verified-history/oracle-assisted admission and rollback semantics differ from v2.
+For the older backend, see [historical v1 boundaries](archive/legacy-boundaries.md). Its verified-history/oracle-assisted admission and rollback semantics differ from v2.

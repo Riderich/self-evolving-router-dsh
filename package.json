@@ -28,6 +28,7 @@
     "benchmarks",
     "cordis.patch.yml",
     "README.md",
+    "README.zh-CN.md",
     "scripts",
     "maintenance-skills",
     "docs",
