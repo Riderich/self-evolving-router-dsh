@@ -1,5 +1,9 @@
 # DSH Pre-LLM Router
 
+## Autonomous v2
+
+The optional v2 backend supports deterministic keyword/constraint parsing, isolated coding-agent development (terminal, file reading/writing and self-tests), and single-request publication with regression replay. Benchmark answers stay outside the developer context; test capabilities are frozen. See [v2 usage and limitations](docs/autonomous-v2.md). Read-only production execution remains separate from writable development workspaces. This does not establish net cost savings.
+
 ## Benchmark 更新（2026-09-14）
 
 新对象后端已完成一次 InterCode 原始五题 B0–B4 开发对照：每组最终答案 5/5，学习组自动完成 1/5；实际 53 次 API。模型真实修复了失败代码并通过验证，但继续维护未带来新增覆盖，成本尚未回本。**两个事后子目录/排除约束反例均发生错误自动化**，当前准入还不能保证生成规则正确遵守所有范围限制。适用于受控研究，扩大使用前需加强范围验证。

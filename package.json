@@ -9,12 +9,14 @@
     ".": "./index.js",
     "./core": "./lib/runtime.js",
     "./package.json": "./package.json",
-    "./cordis.patch.yml": "./cordis.patch.yml"
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./v2": "./lib/v2/core.js"
   },
   "bin": {
     "dsh-router": "./cli.js",
     "dsh-router-install": "./install.js",
-    "dsh-router-run": "./run.js"
+    "dsh-router-run": "./run.js",
+    "dsh-router-v2": "./v2.js"
   },
   "files": [
     "index.js",
@@ -35,7 +37,8 @@
     "CHANGELOG.md",
     "CONTRIBUTING.md",
     "SECURITY.md",
-    "npm-shrinkwrap.json"
+    "npm-shrinkwrap.json",
+    "v2.js"
   ],
   "engines": {
     "node": ">=22"

@@ -1,3 +1,4 @@
+import {CapabilityStore} from './lib/v2/core.js'
 import { MaintenanceController } from './lib/maintenance-controller.js'
 import { dshMaintenanceRunner } from './lib/maintenance-runner.js'
 import { observeVerified } from './lib/maintenance-state.js'
@@ -40,7 +41,7 @@ export function apply(ctx, config = {}) {
       const router = await get(agent.session.header.cwd)
       // Object maintenance uses its own provenance and operations; never run
       // the legacy template learner for an object-backend fallback.
-      if (await new RuleStore(router.store.root).exists()) return
+      if (await new CapabilityStore(router.store.root).exists() || await new RuleStore(router.store.root).exists()) return
       if (!(await router.store.read()).config.enabled) return
       await router.record(turn)
       await router.learn(AbortSignal.any([signal, abort.signal]))
@@ -65,6 +66,8 @@ export function apply(ctx, config = {}) {
       turns.delete(key)
       track((async () => {
         const router = await get(session.header.cwd)
+        const caps=new CapabilityStore(router.store.root)
+        if(await caps.exists()){await caps.transaction(s=>event(s,'capability-agent-turn',{sessionId:key,routed:turn.routed,modelMessages:turn.modelMessages,usage:turn.usage,durationMs:performance.now()-turn.started}));return}
         const objects = new RuleStore(router.store.root)
         if (await objects.exists()) {
           await objects.transaction(s => event(s, 'object-agent-turn', { sessionId: key, turn: e.data.turn, reason: e.data.reason?.kind, routed: turn.routed, modelMessages: turn.modelMessages, usage: turn.usage, usageSemantics: 'dsh-disjoint-v1', durationMs: performance.now() - turn.started }))

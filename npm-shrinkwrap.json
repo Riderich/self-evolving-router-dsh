@@ -34,7 +34,8 @@
       "bin": {
         "dsh-router": "cli.js",
         "dsh-router-install": "install.js",
-        "dsh-router-run": "run.js"
+        "dsh-router-run": "run.js",
+        "dsh-router-v2": "v2.js"
       },
       "engines": {
         "node": ">=22"

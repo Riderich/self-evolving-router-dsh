@@ -1,3 +1,4 @@
+import {CapabilityStore} from '../../lib/v2/core.js'
 // Explicit benchmark-only tool overlay. Never enabled in normal router sessions.
 import { appendFile, readFile, realpath } from 'node:fs/promises'
 import { resolve, posix, join } from 'node:path'
@@ -18,7 +19,8 @@ export async function loadBackend(path) {
   const input = JSON.parse(await readFile(path, 'utf8'))
   const root = await realpath(process.cwd())
   if (await realpath(input.root) !== root) throw Error('Benchmark root must match session cwd')
-  const objects = new RuleStore(root)
+  const v2=new CapabilityStore(root)
+  const objects = await v2.exists()?v2:new RuleStore(root)
   let config
   if (await objects.exists()) {
     const state = await objects.read(), c = state.config
@@ -35,7 +37,7 @@ export async function loadBackend(path) {
   if (config.image !== input.image || config.learning) throw Error('Benchmark requires matching pinned image and learning:false')
   const journal = resolve(input.journal)
   if (journal === root || journal.startsWith(root + '/')) throw Error('Benchmark journal must be outside exposed workspace')
-  if (input.answerContract !== undefined && input.answerContract !== 'integer-only') throw Error('Unsupported benchmark answer contract')
+  if (input.answerContract !== undefined && !['integer-only','hex','lines'].includes(input.answerContract)) throw Error('Unsupported benchmark answer contract')
   return { root, config, journal, answerContract: input.answerContract }
 }
 export function apply(ctx, settings) {
@@ -48,6 +50,8 @@ export function apply(ctx, settings) {
   })
   ctx.systemPrompt.section({ name: 'benchmark:readonly', order: 999, text: 'This is a read-only Bash benchmark. The bash tool runs in a fresh isolated Linux container per call with working directory /testbed. Only public workspace files are exposed; /tmp is ephemeral. No host credentials, host files, internet, persistent writes or background jobs are available. Use absolute /testbed paths. Return only the requested result, without commentary or Markdown. Do not assume shell state persists across calls.' })
   if (settings.answerContract === 'integer-only') ctx.systemPrompt.section({ name: 'benchmark:answer-contract', order: 1000, text: 'MANDATORY OUTPUT INTERFACE for this count-only task family: your entire final assistant response MUST consist of exactly one nonnegative integer, optionally followed by a newline. No other words, labels, punctuation, Markdown, filenames, code blocks, or explanation. Execute the task using bash, then return only the integer you computed. The evaluator requires this exact interface.' })
+  if(settings.answerContract==='hex')ctx.systemPrompt.section({name:'benchmark:hex-interface',order:1000,text:'Return exactly the requested hexadecimal value, with no prefix, spaces, prose or Markdown. An optional final newline is allowed.'})
+  if(settings.answerContract==='lines')ctx.systemPrompt.section({name:'benchmark:lines-interface',order:1000,text:'Return exactly one requested item per line. No labels, explanations, Markdown, counts or extra columns. If the result has no items, return an empty response.'})
   ctx.on('agent/created', ({ agent }) => {
     const original = ctx.tools.get('bash')
     if (!original) throw Error('Pinned native bash tool must be registered before benchmark agent')

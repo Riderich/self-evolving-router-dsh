@@ -1,0 +1,39 @@
+[
+  {
+    "request": "count lines in all php files in /testbed recursively",
+    "files": {
+      "a.php": "a\nb",
+      "dir/b.php": "c\n"
+    },
+    "kind": "completed",
+    "text": "2\n"
+  },
+  {
+    "request": "Please show all files in /testbed",
+    "files": {
+      "a.txt": "x",
+      "Dir/z.txt": "y"
+    },
+    "kind": "completed",
+    "text": "a.txt\n"
+  },
+  {
+    "request": "Count lines in PHP files in /testbed excluding archive recursively",
+    "files": {
+      "a.php": "x\n",
+      "archive/b.php": "x\ny\n"
+    },
+    "kind": "completed",
+    "text": "1\n"
+  },
+  {
+    "request": "delete all files in /testbed",
+    "files": {},
+    "kind": "unsupported"
+  },
+  {
+    "request": "count lines in php files in /testbed newer than 5 days",
+    "files": {},
+    "kind": "unsupported"
+  }
+]

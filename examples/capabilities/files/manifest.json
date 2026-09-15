@@ -1,0 +1,87 @@
+{
+  "version": 2,
+  "id": "files",
+  "effect": "public-workspace-read",
+  "operations": {
+    "text.count_newlines": {
+      "args": {
+        "type": "object",
+        "properties": {
+          "root": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "recursive": {
+            "type": "boolean"
+          },
+          "extension": {
+            "type": "string",
+            "maxLength": 12
+          },
+          "exclude_dirs": {
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            }
+          }
+        },
+        "required": [
+          "root",
+          "recursive",
+          "extension",
+          "exclude_dirs"
+        ],
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "format": "integer"
+    },
+    "files.list": {
+      "args": {
+        "type": "object",
+        "properties": {
+          "root": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "recursive": {
+            "type": "boolean"
+          },
+          "extension": {
+            "type": "string",
+            "maxLength": 12
+          },
+          "exclude_dirs": {
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            }
+          }
+        },
+        "required": [
+          "root",
+          "recursive",
+          "extension",
+          "exclude_dirs"
+        ],
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "array",
+        "maxItems": 256,
+        "items": {
+          "type": "string",
+          "maxLength": 256
+        }
+      },
+      "format": "lines"
+    }
+  }
+}

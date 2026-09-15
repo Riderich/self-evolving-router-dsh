@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import * as developmentPlugin from './lib/v2/plugin.js'
 // Boots the installed DSH profile through its public boot API. This avoids the
 // CLI's repeated dependency-closure healing on cloud-placeholder files; it does
 // not implement an agent loop. Use install.js first on the prepared runtime.
@@ -15,6 +16,9 @@ import { dshRuntime } from './lib/dsh-runtime.js'
 import * as maintenancePlugin from './lib/maintenance-plugin.js'
 import { RuleStore } from './lib/rule-store.js'
 const args = process.argv.slice(2)
+let development
+const developmentIndex=args.indexOf('--development-file')
+if(developmentIndex>=0){development=JSON.parse(await readFile(resolve(args[developmentIndex+1]),'utf8'));args.splice(developmentIndex,2)}
 let maintenance
 const maintenanceIndex = args.indexOf('--object-maintenance-file')
 if (maintenanceIndex >= 0) { maintenance = JSON.parse(await readFile(resolve(args[maintenanceIndex + 1]), 'utf8')); args.splice(maintenanceIndex, 2) }
@@ -60,6 +64,11 @@ const root = join(profile.dir, 'cordis.yml')
 try { await writeFile(root, '[]\n', { flag: 'wx' }) } catch (e) { if (e.code !== 'EEXIST') throw e }
 const patches = [...profile.layers.flatMap(l => l.patches), ...profile.patches, { id: 'session-telemetry-otel', disabled: true }]
 if (benchmark) patches.push({ id: 'headless-runner', inject: ['headlessStartup', 'prellmRouter', 'benchmarkBackend'] }, { id: 'tool-bash', config: { enableRunInBackground: false } })
+if(development){
+  if(maintenance||benchmark||learnOnly)throw Error('Development must use a separate session')
+  development={...development,defineTool:(await import(require.resolve('@deepseek-ai/dsh-tools'))).defineTool}
+  patches.push({id:'headless-runner',inject:['headlessStartup','autonomousDevelopment']},{id:'prellm-router',disabled:true},{id:'session-title-llm',disabled:true})
+}
 if (maintenance) {
   if (benchmark || learnOnly) throw Error('Maintenance and benchmark sessions must be separate')
   maintenance = { ...maintenance, defineTool: (await import(require.resolve('@deepseek-ai/dsh-tools'))).defineTool, prompt: await maintenancePlugin.maintenancePrompt(new RuleStore(maintenance.root), maintenance.chain_id) }
@@ -81,6 +90,7 @@ try {
     provideCmdline(ctx, { args, exit: code => { void stop(code) } })
     if (benchmark) ctx.plugin(benchmarkPlugin, benchmark)
     if (maintenance) ctx.plugin(maintenancePlugin, maintenance)
+    if (development) ctx.plugin(developmentPlugin,development)
     if (learnOnly) ctx.plugin({ name: 'benchmark-maintenance-only', inject: ['llm', 'agentDefaultModel', 'prellmRouter', 'benchmarkBackend'], apply(services) {
       // No agent request is submitted. The external controller admits only past
       // oracle-checked history; synthesis still uses the real pinned DSH adapter.
